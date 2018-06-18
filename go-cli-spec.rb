@@ -17,8 +17,9 @@ RSpec.describe Map do
         Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
         Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
       ]
-      drivers.each {|driver| map.insert_object(driver)}
+      drivers.each {|driver| map.insert_object(driver, "D")}
       expect(map.map_objects.all? {|object| object.x >= 0 && object.x < map.width}).to be(true)
+      map.display
     end
   end
   
