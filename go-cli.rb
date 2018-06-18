@@ -31,12 +31,19 @@ class MapObject
   end
 end
 
-class Driver
-  
+class Person
+  def initialize(name, phone, address)
+    @name = name
+    @phone = phone
+    @address = address
+  end
 end
 
-class User
-  
+class Driver < Person
+  def initialize(name, phone, address, bike)
+    super(name, phone, address)
+    @bike = bike
+  end
 end
 
 class Order
