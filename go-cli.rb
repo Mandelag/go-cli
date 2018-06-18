@@ -1,23 +1,8 @@
 module Gocli
-  class MapBuilder
-    attr_accessor :width, :height, :map_objects
-    def initialize
-      @width = 20
-      @height = 20
-      @map_objects = []
-    end
-    def build 
-      map = Map.new(@height, @width)
-      @map_objects.each do |obj|
-        map.insert_object(obj)
-      end
-      map
-    end
-  end
-
   class Map
     attr_reader :height
     attr_reader :width
+    attr_accessor :map_objects
     
     def initialize(height=20, width=20)
       @height = height
@@ -34,9 +19,6 @@ module Gocli
       result
     end
     
-    def iterate_object
-      @map_objects.each {|objects|  yield(x)}
-    end
   end
   
   class MapObject
