@@ -11,7 +11,7 @@ module GoCli
       @spatial_index = {}
     end
     
-    def insert_object(object, symbol=",", x=rand(@width), y=rand(@height))
+    def place_object(object, symbol=",", x=rand(@width), y=rand(@height))
       result = nil
       if x < @width && x >= 0 && y < @height && y >= 0
         result = MapObject.new(object, symbol, x, y)
@@ -86,4 +86,13 @@ module GoCli
   class Order
     
   end
+  
+  class OrderServer
+    
+  end
+  
+  class OrderClient
+    
+  end
+  
 end
