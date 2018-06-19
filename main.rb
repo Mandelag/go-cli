@@ -24,8 +24,21 @@ class AppInterface
     while (response = prompt_user) != 4
       if response == 2
         order_response = prompt_order
+        order_confirmation = app.place_order(*order_response)
+        puts "---Order confirmation---"
+        puts order_confirmation.order
+        puts "------------------------"
+        print "Confirm? > [Y/n]"
+        confirm = STDIN.gets.downcase
+        if confirm == "y"
+          order_confirmation.reply("yes")
+          puts "Done!"
+        else
+          order_confirmation.reply("no")
+          puts "Order canceled"
+        end
       elsif response == 3
-        view_history
+        app.display_order_history
       elsif response == 4
         puts "CLOSE!"
         return
@@ -66,7 +79,6 @@ class AppInterface
     destination_y = STDIN.gets.to_i
     [destination_x, destination_y]
   end
-  
 end
 
 AppInterface.main()
