@@ -88,4 +88,55 @@ module GoCli
   class Order
     
   end
+  
+  class App
+    @@drivers = [
+      Driver.new("Wagyu", "+8283xxxxxxx", "Jl. Bukit Sake", "RX King"),
+      Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
+      Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
+      Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
+      Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
+    ]
+    @@user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
+    @@map = nil
+    @@unit_cost = 300
+    @user_in_map = nil
+    
+    def initialize(side, user_x=nil, user_y=nil)
+      if @@map.nil?
+         @@map = Map.new(side, side)
+         5.times do
+           @@map.place(@@drivers.delete_at(rand(@@drivers.length)), "D")
+         end
+         @user_in_map = @@map.place(@@user, "X", user_x, user_y)
+      end
+    end
+    
+    def place_order(destination_x, destination_y)
+      order =  Order.new
+      order.timestamp = ""
+      order.destination_x = destination_x
+      order.destination_y = destination_y
+      order.orderer = @user_in_map
+      # order.route = map. calculate route
+      # order.price = price according to route distance 
+      # order.driver = nearest driver
+      OrderConfirmation.new(order)
+    end
+    
+    def display_map 
+      puts ""
+      puts "---Map Legend---"
+      puts ""
+      puts " X => Your location"
+      puts " D => Driver location"
+      puts " * => More than 1 object at one location"
+      puts ""
+      puts "------Maps------"
+      puts ""
+      @@map.display
+      puts ""
+      puts "----------------"
+    end
+  end
 end
