@@ -70,6 +70,7 @@ module GoCli
   end
   
   class Person
+    attr_accessor :name, :phone, :address
     def initialize(name, phone, address)
       @name = name
       @phone = phone
@@ -78,6 +79,7 @@ module GoCli
   end
   
   class Driver < Person
+    attr_accessor :bike
     def initialize(name, phone, address, bike)
       super(name, phone, address)
       @bike = bike
@@ -91,10 +93,17 @@ module GoCli
       @price = 300
       @route = "test route"
       @orderer = "orderer"
+      @driver = Driver.new("Pak Haji Ali","01392839xx","Jl. Kedondong","Supra")
     end
     
     def to_s
-      @timestamp.to_s + ":" + @orderer.to_s + ":" + @price.to_s + ":" + @route.to_s
+      "-------------------"
+      "Order date: #{@timestamp.to_s}\r\n"+
+      "Orderer: #{@orderer.name}\r\n"+
+      "Price: #{@price.to_s}\r\n"+
+      "Distance: #{(@route.length-1).to_s} units\r\n"+
+      "Total price: #{((@route.length-1)*@price).to_s}\r\n"+
+      "Driver:\r\n  Name: #{@driver.name}\r\n  Phone: #{@driver.phone}\r\n  Motorcycle: #{@driver.bike}"
     end
   end
   
@@ -124,7 +133,7 @@ module GoCli
     
     def place_order(destination_x, destination_y)
       order =  Order.new
-      order.orderer = @user_in_map
+      order.orderer = @user_in_map.object
       # order.route = map. calculate route
       # order.price = price according to route distance 
       # order.driver = nearest driver
@@ -157,6 +166,7 @@ module GoCli
       puts "---Order history---"
       @orders.each do |order|
         puts order.to_s
+        puts "-------------------"
       end
       puts "-------------------"
       puts ""
