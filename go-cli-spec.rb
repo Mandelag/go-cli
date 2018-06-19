@@ -22,5 +22,4 @@ RSpec.describe Map do
       map.display
     end
   end
-  
 end
