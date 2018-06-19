@@ -6,13 +6,6 @@ def initialize_application()
 end
 
 def main()
-  puts "==============================="
-  puts "===                         ==="
-  puts "===    WELCOME TO GO-CLI    ==="
-  puts "===     v0.0.1-SNAPSHOT     ==="
-  puts "===                         ==="
-  puts "==============================="
-  
   if ARGV.length == 0
     puts "Intialize using default value..."
   elsif ARGV.length == 1
@@ -25,6 +18,12 @@ def main()
     puts "  ruby main [ file | world_side_length user_x user_y]"
     return
   end
+  puts "==============================="
+  puts "===                         ==="
+  puts "===    WELCOME TO GO-CLI    ==="
+  puts "===     v0.0.1-SNAPSHOT     ==="
+  puts "===                         ==="
+  puts "==============================="
   puts ""
 end
 
