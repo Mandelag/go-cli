@@ -2,17 +2,25 @@ require_relative "go-cli"
 include GoCli
 
 class App
-  def initialize() 
-    @map = Map.new
+  def initialize(side, object_placements, user_x, user_y) 
+    if @@order_server.nil?
+       map = Map.new(side, side)
+       @@order_server = OrderServer.new(map)
+    end
+    
   end
 
-  def main()
+  def self.main()
+    app = nil 
     if ARGV.length == 0
       puts "Intialize using default value..."
+      app = App.new(20, )
     elsif ARGV.length == 1
       puts "Initialize by file..."
+      
     elsif ARGV.length == 3
       puts "Initialize by parameter..."
+      app = App.new()
     else 
       puts "Invalid parameter length."
       puts "Usage:"
@@ -45,5 +53,4 @@ class App
   end
 end
 
-app = App.new
-app.main()
+App.main()
