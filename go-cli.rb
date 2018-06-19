@@ -85,9 +85,16 @@ module GoCli
   end
   
   class Order
-    attr_accessor :unit_price, :price, :route
+    attr_accessor :unit_price, :price, :route, :orderer
     def initialize
       @timestamp = Time.now
+      @price = 300
+      @route = "test route"
+      @orderer = "orderer"
+    end
+    
+    def to_s
+      @timestamp.to_s + ":" + @orderer.to_s + ":" + @price.to_s + ":" + @route.to_s
     end
   end
   
@@ -116,17 +123,18 @@ module GoCli
     end
     
     def place_order(destination_x, destination_y)
-      order =  Order.new(destination_x, destination_y)
+      order =  Order.new
       order.orderer = @user_in_map
       # order.route = map. calculate route
       # order.price = price according to route distance 
       # order.driver = nearest driver
       order.freeze
-      lambda do |answer|
-        if answer.lower == "yes"
+      response = lambda do |answer|
+        if answer.downcase == "yes"
           @orders << order
         end
       end
+      {"order" => order, "response" => response}
     end
     
     def display_map
@@ -148,7 +156,7 @@ module GoCli
       puts ""
       puts "---Order history---"
       @orders.each do |order|
-      #  puts order.to_s
+        puts order.to_s
       end
       puts "-------------------"
       puts ""

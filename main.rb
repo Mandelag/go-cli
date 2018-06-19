@@ -23,19 +23,19 @@ class AppInterface
     
     while (response = prompt_user) != 4
       if response == 2
-        order_response = prompt_order
-        order_confirmation = app.place_order(*order_response)
+        user_response = prompt_order
+        order_response = app.place_order(*user_response)
         puts "---Order confirmation---"
-        puts order_confirmation.order
+        puts order_response["order"]
         puts "------------------------"
         print "Confirm? > [Y/n]"
-        confirm = STDIN.gets.downcase
-        if confirm == "y"
-          order_confirmation.reply("yes")
+        confirm = STDIN.gets.chomp.downcase
+        if confirm == "y" || confirm == "yes"
+          order_response["response"].call("yes")
           puts "Done!"
         else
-          order_confirmation.reply("no")
-          puts "Order canceled"
+          order_response["response"].call("no")
+          puts "Order canceled."
         end
       elsif response == 3
         app.display_order_history
@@ -61,22 +61,23 @@ class AppInterface
   end
   
   def self.prompt_user
+    puts ""
     puts "What do you want to do?"
     puts " 1. Show map"
     puts " 2. Order Go Ride"
     puts " 3. View history"
     puts " 4. Exit application"
     print "> [1] "
-    response = STDIN.gets.to_i
+    response = STDIN.gets.chomp.to_i
     response
   end
   
   def self.prompt_order
     puts "Where do you want to go? Please enter the coordinate (X,Y)"
     print "X> "
-    destination_x = STDIN.gets.to_i
+    destination_x = STDIN.gets.chomp.to_i
     print "Y> "
-    destination_y = STDIN.gets.to_i
+    destination_y = STDIN.gets.chomp.to_i
     [destination_x, destination_y]
   end
 end
