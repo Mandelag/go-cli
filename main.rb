@@ -31,7 +31,7 @@ class App
       puts "Initialize by file..."
       app = App.new(20)
     elsif ARGV.length == 3
-      puts "Initialize by parameter..."
+      puts "Initialize by parameter..." + ARGV.join(" ")
       app = App.new(ARGV[0].to_i, ARGV[1].to_i, ARGV[2].to_i)
     else 
       puts "Invalid parameter length."
@@ -52,15 +52,24 @@ class App
     puts " 2. Order Go Ride"
     puts " 3. View History"
     print "> [1] "
-    response = gets.chomp.to_i
-    
+    response = STDIN.gets.to_i
     if response == 2
       puts "ORDER!"
     elsif response == 3
       puts "HISTORY!"
     else 
-      puts "your location -> X"
+      puts ""
+      puts "---Map Legend---"
+      puts ""
+      puts " X => Your location"
+      puts " D => Driver location"
+      puts " * => More than 1 object at one location"
+      puts ""
+      puts "------Maps------"
+      puts ""
       @@map.display
+      puts ""
+      puts "----------------"
     end
   end
 end
