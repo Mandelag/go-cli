@@ -18,6 +18,7 @@ def main()
     puts "  ruby main [ file | world_side_length user_x user_y]"
     return
   end
+  
   puts "==============================="
   puts "===                         ==="
   puts "===    WELCOME TO GO-CLI    ==="
@@ -25,6 +26,21 @@ def main()
   puts "===                         ==="
   puts "==============================="
   puts ""
+  puts "What do you want to do?"
+  puts " 1. Show Map"
+  puts " 2. Order Go Ride"
+  puts " 3. View History"
+  print "> [1] "
+  response = gets.chomp.to_i
+  
+  if response == 2
+    puts "ORDER!"
+  elsif response == 3
+    puts "HISTORY!"
+  else 
+    puts "your location -> X"
+    puts "...........\n...........\n...........\n...........\n......X...."
+  end
 end
 
 main()
