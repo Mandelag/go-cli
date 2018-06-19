@@ -1,4 +1,4 @@
-module Gocli
+module GoCli
   class Map
     attr_reader :height
     attr_reader :width

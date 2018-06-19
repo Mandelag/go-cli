@@ -1,5 +1,5 @@
 require_relative "go-cli"
-include Gocli
+include GoCli
 
 RSpec.describe Map do
   describe "#Without initialization parameters," do
