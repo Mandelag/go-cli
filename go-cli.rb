@@ -1,7 +1,6 @@
 module GoCli
   class Map
-    attr_reader :height
-    attr_reader :width
+    attr_reader :height, :width
     attr_accessor :map_objects
     
     def initialize(height=20, width=20)
@@ -56,6 +55,12 @@ module GoCli
         puts row
       end
     end
+    
+    def route(start_x, start_y, dest_x, dest_y)
+      route = Route.new(start_x, start_y, dest_x, dest_y)
+      route.freeze
+      route
+    end
   end
   
   class MapObject
@@ -66,6 +71,17 @@ module GoCli
       @symbol = symbol
       @x = x
       @y = y
+    end
+  end
+  
+  class Route 
+    attr_reader :distance, :start_x, :start_y, :dest_x, :dest_y
+    def initialize(start_x, start_y, dest_x, dest_y)
+      @start_x = start_x 
+      @start_y = start_y
+      @dest_x = dest_x
+      @dest_y = dest_y
+      @distance = (start_x-dest_x).abs + (start_y-dest_y).abs - 1
     end
   end
   
