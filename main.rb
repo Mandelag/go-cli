@@ -22,6 +22,21 @@ class App
     end
   end
   
+  def display_map 
+    puts ""
+    puts "---Map Legend---"
+    puts ""
+    puts " X => Your location"
+    puts " D => Driver location"
+    puts " * => More than 1 object at one location"
+    puts ""
+    puts "------Maps------"
+    puts ""
+    @@map.display
+    puts ""
+    puts "----------------"
+  end
+  
   def self.main()
     app = nil 
     if ARGV.length == 0
@@ -57,18 +72,7 @@ class App
     elsif response == 3
       puts "HISTORY!"
     else 
-      puts ""
-      puts "---Map Legend---"
-      puts ""
-      puts " X => Your location"
-      puts " D => Driver location"
-      puts " * => More than 1 object at one location"
-      puts ""
-      puts "------Maps------"
-      puts ""
-      @@map.display
-      puts ""
-      puts "----------------"
+      app.display_map
     end
   end
 end
