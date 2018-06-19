@@ -2,25 +2,37 @@ require_relative "go-cli"
 include GoCli
 
 class App
-  def initialize(side, object_placements, user_x, user_y) 
-    if @@order_server.nil?
-       map = Map.new(side, side)
-       @@order_server = OrderServer.new(map)
+  @@drivers = [
+    Driver.new("Wagyu", "+8283xxxxxxx", "Jl. Bukit Sake", "RX King"),
+    Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
+    Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
+    Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
+    Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
+  ]
+  
+  @@map = nil
+  
+  def initialize(side, user_x=nil, user_y=nil)
+    if @@map.nil?
+       @@map = Map.new(side, side)
+       5.times do
+         @@map.place(@@drivers.delete_at(rand(@@drivers.length)), "D")
+       end
+       @@map.place(Person.new("Keenan", "081388439168", "Jl. Bukit Cinere"), "X", user_x, user_y)
     end
-    
   end
-
+  
   def self.main()
     app = nil 
     if ARGV.length == 0
       puts "Intialize using default value..."
-      app = App.new(20, )
+      app = App.new(20)
     elsif ARGV.length == 1
       puts "Initialize by file..."
-      
+      app = App.new(20)
     elsif ARGV.length == 3
       puts "Initialize by parameter..."
-      app = App.new()
+      app = App.new(ARGV[0].to_i, ARGV[1].to_i, ARGV[2].to_i)
     else 
       puts "Invalid parameter length."
       puts "Usage:"
@@ -48,7 +60,7 @@ class App
       puts "HISTORY!"
     else 
       puts "your location -> X"
-      puts "...........\n...........\n...........\n...........\n......X...."
+      @@map.display
     end
   end
 end
