@@ -61,7 +61,6 @@ module GoCli
   class MapObject
     attr_reader :object, :symbol
     attr_accessor :x, :y
-    
     def initialize(object, symbol, x, y)
       @object = object
       @symbol = symbol
@@ -86,7 +85,10 @@ module GoCli
   end
   
   class Order
-    
+    attr_accessor :unit_price, :price, :route
+    def initialize
+      @timestamp = Time.now
+    end
   end
   
   class App
@@ -110,23 +112,26 @@ module GoCli
          end
          @user_in_map = @@map.place(@@user, "X", user_x, user_y)
       end
+      @orders = []
     end
     
     def place_order(destination_x, destination_y)
-      order =  Order.new
-      order.timestamp = ""
-      order.destination_x = destination_x
-      order.destination_y = destination_y
+      order =  Order.new(destination_x, destination_y)
       order.orderer = @user_in_map
       # order.route = map. calculate route
       # order.price = price according to route distance 
       # order.driver = nearest driver
-      OrderConfirmation.new(order)
+      order.freeze
+      lambda do |answer|
+        if answer.lower == "yes"
+          @orders << order
+        end
+      end
     end
     
-    def display_map 
+    def display_map
       puts ""
-      puts "---Map Legend---"
+      puts "---Map legend---"
       puts ""
       puts " X => Your location"
       puts " D => Driver location"
@@ -137,6 +142,16 @@ module GoCli
       @@map.display
       puts ""
       puts "----------------"
+    end
+    
+    def display_order_history
+      puts ""
+      puts "---Order history---"
+      @orders.each do |order|
+      #  puts order.to_s
+      end
+      puts "-------------------"
+      puts ""
     end
   end
 end
