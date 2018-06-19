@@ -37,6 +37,27 @@ class App
     puts "----------------"
   end
   
+  def print_application_header
+    puts "==============================="
+    puts "===                         ==="
+    puts "===    WELCOME TO GO-CLI    ==="
+    puts "===     v0.0.1-SNAPSHOT     ==="
+    puts "===                         ==="
+    puts "==============================="
+    puts ""
+  end
+  
+  def prompt_user
+    puts "What do you want to do?"
+    puts " 1. Show map"
+    puts " 2. Order Go Ride"
+    puts " 3. View history"
+    puts " 4. Exit application"
+    print "> [1] "
+    response = STDIN.gets.to_i
+    response
+  end
+  
   def self.main()
     app = nil 
     if ARGV.length == 0
@@ -54,26 +75,21 @@ class App
       return
     end
     
-    puts "==============================="
-    puts "===                         ==="
-    puts "===    WELCOME TO GO-CLI    ==="
-    puts "===     v0.0.1-SNAPSHOT     ==="
-    puts "===                         ==="
-    puts "==============================="
-    puts ""
-    puts "What do you want to do?"
-    puts " 1. Show Map"
-    puts " 2. Order Go Ride"
-    puts " 3. View History"
-    print "> [1] "
-    response = STDIN.gets.to_i
-    if response == 2
-      puts "ORDER!"
-    elsif response == 3
-      puts "HISTORY!"
-    else 
-      app.display_map
+    app.print_application_header
+    
+    while (response = app.prompt_user) != 4
+      if response == 2
+        puts "ORDER!"
+      elsif response == 3
+        puts "HISTORY!"
+      elsif response == 4
+        puts "CLOSE!"
+        return
+      else 
+        app.display_map
+      end
     end
+    
   end
 end
 
