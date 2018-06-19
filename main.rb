@@ -9,7 +9,7 @@ class App
     Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
     Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
   ]
-  
+  @@user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
   @@map = nil
   
   def initialize(side, user_x=nil, user_y=nil)
@@ -18,7 +18,7 @@ class App
        5.times do
          @@map.place(@@drivers.delete_at(rand(@@drivers.length)), "D")
        end
-       @@map.place(Person.new("Keenan", "081388439168", "Jl. Bukit Cinere"), "X", user_x, user_y)
+       @@map.place(@@user, "X", user_x, user_y)
     end
   end
   
