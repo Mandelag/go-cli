@@ -61,6 +61,11 @@ module GoCli
       route.freeze
       route
     end
+    
+    def find_nearest(search_x, search_y, class_string)
+      @map_objects.each {|obj| puts "class: #{obj.object.name} x: #{obj.x} y: #{obj.y}"}
+      @map_objects.select {|obj| obj.is_a?(Module.const_get(class_string))}.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
+    end
   end
   
   class MapObject
@@ -103,7 +108,7 @@ module GoCli
   end
   
   class Order
-    attr_accessor :unit_price, :price, :route, :orderer
+    attr_accessor :unit_price, :price, :driver, :route, :orderer
     def initialize
       @timestamp = Time.now
       @price = 300
@@ -152,7 +157,8 @@ module GoCli
       order.orderer = @user_in_map.object
       # order.route = map. calculate route
       # order.price = price according to route distance 
-      # order.driver = nearest driver
+      puts @user_in_map.x, @user_in_map.y
+      order.driver = @@map.find_nearest(@user_in_map.x, @user_in_map.y, "Driver")
       order.freeze
       response = lambda do |answer|
         if answer.downcase == "yes"
