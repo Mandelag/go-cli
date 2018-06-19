@@ -31,7 +31,6 @@ class App
       puts "Initialize by file..."
       app = App.new(20)
     elsif ARGV.length == 3
-      puts "Initialize by parameter..." + ARGV.join(" ")
       app = App.new(ARGV[0].to_i, ARGV[1].to_i, ARGV[2].to_i)
     else 
       puts "Invalid parameter length."
