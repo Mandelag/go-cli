@@ -131,25 +131,13 @@ module GoCli
   end
   
   class App
-    @@drivers = [
-      Driver.new("Wagyu", "+8283xxxxxxx", "Jl. Bukit Sake", "RX King"),
-      Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
-      Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
-      Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
-      Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
-    ]
-    @@user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
     @@map = nil
     @@unit_cost = 300
     @user_in_map = nil
     
     def initialize(side, user_x=nil, user_y=nil)
       if @@map.nil?
-         @@map = Map.new(side, side)
-         5.times do
-           @@map.place(@@drivers.delete_at(rand(@@drivers.length)), "D")
-         end
-         @user_in_map = @@map.place(@@user, "X", user_x, user_y)
+         @@map = Map.get_pre_populated_map(side, user_x, user_y)
       end
       @orders = []
     end
@@ -195,5 +183,23 @@ module GoCli
       puts "-------------------"
       puts ""
     end
+    
+    def self.get_pre_populated_map(side, user_x, user_y)
+      drivers = [
+        Driver.new("Keenan", "081388439168", "Jl. Bukit Cinere", "Piaggio"),
+        Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
+        Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
+        Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
+        Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
+      ]
+      user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
+      map = Map.new(side, side)
+      5.times do
+        map.place(drivers.delete_at(rand(drivers.length)), "D")
+      end
+      @user_in_map = map.place(user, "X", user_x, user_y)
+      map
+    end
+    
   end
 end
