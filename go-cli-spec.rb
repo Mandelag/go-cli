@@ -3,12 +3,12 @@ include GoCli
 
 RSpec.describe Map do
   describe "#Without initialization parameters," do
-    it "create default map of 20 x 20 grid." do
-      map = Map.get_pre_populated(20, nil, nil)
+    it "Create default map of 20 x 20 grid." do
+      map = Map.new
       expect(map.height).to be(20)
       expect(map.width).to be(20)
     end
-    it "randomly inserted map objects will never be outside the grid boundary." do
+    it "Randomly inserted map objects will never be outside the grid boundary." do
       map = Map.get_pre_populated(20, nil, nil)
       expect(map.map_objects.all? {|object| object.x >= 0 && object.x < map.width}).to be(true)
     end
