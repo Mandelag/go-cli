@@ -57,16 +57,22 @@ module GoCli
     end
     
     def route(start_x, start_y, dest_x, dest_y)
-      route = Route.new(start_x, start_y, dest_x, dest_y)
-      route.freeze
-      route
+      
     end
     
     def find_nearest(search_x, search_y, class_string)
-      @map_objects.each {|obj| puts "class: #{obj.object.name} x: #{obj.x} y: #{obj.y}"}
+      #@map_objects.each {|obj| puts "class: #{obj.object.name} x: #{obj.x} y: #{obj.y}"}
       select = @map_objects.select {|obj| obj.object.is_a?(Module.const_get(class_string))}
       select = select.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
       select.object
+    end
+    
+    def find_by_location(search_x, search_y, class_string)
+      spatial_index = rebuild_spatial_index
+      objects = spatial_index[search_y][search_x]
+      objects = objects.select {|obj| obj.object.is_a?(Module.const_get(class_string))}
+      objects = objects.map {|obj| obj.object}
+      objects
     end
     
     def self.get_pre_populated(side, user_x, user_y)
@@ -106,6 +112,13 @@ module GoCli
       @dest_x = dest_x
       @dest_y = dest_y
       @distance = (start_x-dest_x).abs + (start_y-dest_y).abs - 1
+    end
+    
+    def self.lurus_lurus_algorithm(start_x, start_y, dest_x, dest_y)
+      route = Route.new
+      lurus_horizontal = [start_x..dest_x]
+      lurus_vertical = start_y..dest_y
+      
     end
   end
   
