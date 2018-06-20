@@ -1,3 +1,5 @@
+require "json"
+
 module GoCli
   class Map
     attr_reader :height, :width
@@ -75,6 +77,20 @@ module GoCli
       objects
     end
     
+    def to_json(*a)
+      {"json_class" => self.class.name,
+       "data" => {
+          "width" => @width,
+          "height" => @height,
+          "map_objects" => @map_objects
+        }
+      }.to_json(*a)
+    end
+    
+    def self.json_create(o)
+      
+    end
+    
     def self.get_pre_populated(side, user_x, user_y)
       drivers = [
         Driver.new("Keenan", "081388439168", "Jl. Bukit Cinere", "Piaggio"),
@@ -101,6 +117,21 @@ module GoCli
       @symbol = symbol
       @x = x
       @y = y
+    end
+    
+    def to_json(*a)
+      {"json_class" => self.class.name,
+       "data" => {
+          "object" => @object,
+          "symbol" => @symbol,
+          "x" => @x,
+          "y" => @y
+        }
+      }.to_json(*a)
+    end
+    
+    def self.json_create(o)
+      
     end
   end
   
@@ -129,6 +160,20 @@ module GoCli
       @phone = phone
       @address = address
     end
+    
+    def to_json(*a)
+      {"json_class" => self.class.name,
+       "data" => {
+          "name" => @name,
+          "phone" => @phone,
+          "address" => @address
+        }
+      }.to_json(*a)
+    end
+    
+    def self.json_create(o)
+      
+    end
   end
   
   class Driver < Person
@@ -137,6 +182,22 @@ module GoCli
       super(name, phone, address)
       @bike = bike
     end
+    
+    def to_json(*a)
+      {"json_class" => self.class.name,
+       "data" => {
+          "name" => @name,
+          "phone" => @phone,
+          "address" => @address,
+          "bike" => @bike
+        }
+      }.to_json(*a)
+    end
+    
+    def self.json_create(o)
+      
+    end
+    
   end
   
   class Order
