@@ -21,7 +21,7 @@ RSpec.describe Map do
       map_loaded = Map.load(str)
       expect(map == map_loaded).to be(true)
     end
-    it "Test save and load" do
+    it "Test save and load." do
       map = Map.new
       map_json_string = map.save()
       map_loaded = Map.load(map_json_string)
