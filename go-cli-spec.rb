@@ -19,7 +19,6 @@ RSpec.describe Map do
       ]
       drivers.each {|driver| map.insert_object(driver, "D")}
       expect(map.map_objects.all? {|object| object.x >= 0 && object.x < map.width}).to be(true)
-      map.display
     end
   end
 end
