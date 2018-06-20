@@ -68,6 +68,23 @@ module GoCli
       select = select.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
       select.object
     end
+    
+    def self.get_pre_populated(side, user_x, user_y)
+      drivers = [
+        Driver.new("Keenan", "081388439168", "Jl. Bukit Cinere", "Piaggio"),
+        Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
+        Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
+        Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
+        Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
+      ]
+      user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
+      map = Map.new(side, side)
+      5.times do
+        map.place(drivers.delete_at(rand(drivers.length)), "D")
+      end
+      @user_in_map = map.place(user, "X", user_x, user_y)
+      map
+    end
   end
   
   class MapObject
@@ -183,23 +200,5 @@ module GoCli
       puts "-------------------"
       puts ""
     end
-    
-    def self.get_pre_populated_map(side, user_x, user_y)
-      drivers = [
-        Driver.new("Keenan", "081388439168", "Jl. Bukit Cinere", "Piaggio"),
-        Driver.new("Budi", "0811xxxxxxx", "Jl. Kober", "Vega-R"),
-        Driver.new("Anto", "0881xxxxxxx", "Jl. Bukit Timah", "Yamaha Mio"),
-        Driver.new("Grace", "0815xxxxxx", "Jl. Lipatan Bumi", "NMax"),
-        Driver.new("Widi", "0809xxxxxxx", "Jl. Bukit Cinere", "Royal Enfield")
-      ]
-      user = Person.new("Keenan", "081388439168", "Jl. Bukit Cinere")
-      map = Map.new(side, side)
-      5.times do
-        map.place(drivers.delete_at(rand(drivers.length)), "D")
-      end
-      @user_in_map = map.place(user, "X", user_x, user_y)
-      map
-    end
-    
   end
 end
