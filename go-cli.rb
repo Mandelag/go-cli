@@ -64,7 +64,9 @@ module GoCli
     
     def find_nearest(search_x, search_y, class_string)
       @map_objects.each {|obj| puts "class: #{obj.object.name} x: #{obj.x} y: #{obj.y}"}
-      @map_objects.select {|obj| obj.is_a?(Module.const_get(class_string))}.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
+      select = @map_objects.select {|obj| obj.object.is_a?(Module.const_get(class_string))}
+      select = select.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
+      select.object
     end
   end
   
