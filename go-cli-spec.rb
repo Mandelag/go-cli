@@ -16,7 +16,10 @@ RSpec.describe Map do
   
   describe "#Load, save, equal, and other related tests." do
     it "Maps are equal when they have the same height, width, and MapObjects (not ordered)." do
-      
+      map = Map.get_pre_populated(20, nil, nil)
+      str = Map.save(map)
+      map_loaded = Map.load(str)
+      expect(map == map_loaded).to be(true)
     end
     it "Test save and load" do
       map = Map.new
@@ -25,5 +28,4 @@ RSpec.describe Map do
       expect(map == map_loaded).to be(true)
     end
   end
-  
 end
