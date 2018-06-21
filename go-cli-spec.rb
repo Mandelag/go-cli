@@ -17,7 +17,7 @@ RSpec.describe Map do
   
   describe "#Load, save, equal, and other related tests." do
     it "Test save and load." do
-      map = Map.new
+      map = Map.get_pre_populated(20, nil, nil)
       map_string = map.save()
       map_loaded = Map.load(map_string)
       expect(map == map_loaded).to be(true)
