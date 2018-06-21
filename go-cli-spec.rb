@@ -34,7 +34,7 @@ RSpec.describe Route do
       map = Map.get_pre_populated(20, nil, nil)
       route = map.route(start_x, start_y, dest_x, dest_y)
       if route.found
-        expect(route.coordinates >= 2).to be(true)
+        expect(route.coordinates.length >= 2).to be(true)
         expect(route.coordinates[0] == [start_x, start_y]).to be(true)
         expect(route.coordinates[-1] == [dest_x, dest_y]).to be(true)
         for i in 1...route.coordinates.length
