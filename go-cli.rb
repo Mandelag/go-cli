@@ -59,7 +59,7 @@ module GoCli
     end
     
     def route(start_x, start_y, dest_x, dest_y)
-      
+      Route.lurus_lurus_algorithm(start_x, start_y, dest_x, dest_y)
     end
     
     def find_nearest(search_x, search_y, class_string)
@@ -163,19 +163,38 @@ module GoCli
   end
   
   class Route 
-    attr_reader :distance, :start_x, :start_y, :dest_x, :dest_y
+    attr_reader :start_x, :start_y, :dest_x, :dest_y
+    attr_accessor :distance, :coordinates, :found
     def initialize(start_x, start_y, dest_x, dest_y)
       @start_x = start_x 
       @start_y = start_y
       @dest_x = dest_x
       @dest_y = dest_y
-      @distance = (start_x-dest_x).abs + (start_y-dest_y).abs - 1
     end
     
     def self.lurus_lurus_algorithm(start_x, start_y, dest_x, dest_y)
-      route = Route.new
-      lurus_horizontal = [start_x..dest_x]
-      lurus_vertical = start_y..dest_y
+      route = Route.new(start_x, start_y, dest_x, dest_y)
+      print [start_x, start_y, dest_x, dest_y]
+      horizontal_movement = []
+      
+      if dest_x >= start_x
+        horizontal_movement = Array(start_x.upto(dest_x))
+      else 
+        horizontal_movement = Array(start_x.downto(dest_x))
+      end
+      if dest_y >= start_y
+        vertical_movement = Array(start_y.upto(dest_y))
+      else 
+        vertical_movement = Array(start_y.downto(dest_y))
+      end
+      
+      vertical_movement.delete_at(0)
+      horizontal_coordinates = horizontal_movement.zip([start_y]*horizontal_movement.length)
+      vertical_coordinates = ([horizontal_movement[-1]]*vertical_movement.length).zip(vertical_movement)
+      route_coordinates = horizontal_coordinates + vertical_coordinates
+      route.coordinates = route_coordinates
+      route.found = true
+      route
     end
   end
   
