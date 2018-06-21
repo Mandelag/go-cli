@@ -260,6 +260,10 @@ module GoCli
       @orders = []
     end
     
+    def save_map
+      @map.save
+    end
+    
     def place_order(destination_x, destination_y)
       order =  Order.new
       order.orderer = @user_in_map.object
