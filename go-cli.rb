@@ -277,6 +277,8 @@ module GoCli
         @map = Map.load(map_file_string)
       end
       @orders = []
+      @user_in_map = @map.map_objects.select {|obj| obj.object.instance_of? Person}[0]
+      puts @user_in_map
     end
     
     def save_map
