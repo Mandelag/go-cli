@@ -108,7 +108,6 @@ module GoCli
       map = Map.new(o["data"]["height"], o["data"]["width"])
       o["data"]["map_objects"].each do |map_object|
         obj =  Module.const_get(map_object["data"]["object"]["json_class"]).json_create(map_object["data"]["object"])
-        puts obj
         symbol = map_object["data"]["symbol"]
         x = map_object["data"]["x"]
         y = map_object["data"]["y"]
@@ -256,6 +255,12 @@ module GoCli
       if @@map.nil?
          @@map = Map.get_pre_populated_map(side, user_x, user_y)
       end
+      @orders = []
+    end
+    
+    def initialize(filename)
+      json_string = File.read(filename)
+      @@map = Map.load(json_string)
       @orders = []
     end
     
