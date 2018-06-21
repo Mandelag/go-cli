@@ -77,6 +77,14 @@ module GoCli
       objects
     end
     
+    def save() 
+      this.to_json
+    end
+    
+    def self.load(json_string)
+      
+    end
+    
     def to_json(*a)
       {"json_class" => self.class.name,
        "data" => {
@@ -100,12 +108,14 @@ module GoCli
       #puts o.class
       #puts "WOW"
       deserialized = new(o["data"]["height"], o["data"]["width"])
+      #Module.const_get(class_string))
       #puts o["data"]["map_objects"]
       #o["data"]["map_objects"].each do |map_object| 
         #puts "EHE"
         #puts map_object
         #deserialized.place(map_object.object, map_object.x, map_object.y)
       deserialized
+      puts deserialized
       #end
     end
     
