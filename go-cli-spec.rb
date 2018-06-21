@@ -20,7 +20,7 @@ RSpec.describe Map do
       map = Map.get_pre_populated(20, nil, nil)
       map_string = map.save()
       map_loaded = Map.load(map_string)
-      expect(map == map_loaded).to be(true)
+      expect(map.to_json == map_loaded.to_json).to be(true) # worked
     end
   end
 end
