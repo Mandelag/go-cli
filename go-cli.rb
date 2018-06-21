@@ -66,7 +66,7 @@ module GoCli
       #@map_objects.each {|obj| puts "class: #{obj.object.name} x: #{obj.x} y: #{obj.y}"}
       select = @map_objects.select {|obj| obj.object.is_a?(Module.const_get(class_string))}
       select = select.min {|a,b| ((a.x-search_x).abs + (a.y-search_y).abs) <=> ((b.x-search_x).abs + (b.y-search_y).abs) }
-      select.object
+      select
     end
     
     def find_by_location(search_x, search_y, class_string)
@@ -156,7 +156,6 @@ module GoCli
     end
     
     def self.json_create(o)
-      puts o
       #puts Module.const_get(o["json_class"]).json_create(o["data"]["object"])
       new(o["data"]["symbol"], o["data"]["x"], o["data"]["y"])
     end
@@ -174,7 +173,7 @@ module GoCli
     
     def self.lurus_lurus_algorithm(start_x, start_y, dest_x, dest_y)
       route = Route.new(start_x, start_y, dest_x, dest_y)
-      print [start_x, start_y, dest_x, dest_y]
+      #print [start_x, start_y, dest_x, dest_y]
       horizontal_movement = []
       
       if dest_x >= start_x
@@ -248,20 +247,16 @@ module GoCli
     attr_accessor :unit_price, :price, :driver, :route, :orderer
     def initialize
       @timestamp = Time.now
-      @price = 300
-      @route = "test route"
-      @orderer = "orderer"
-      @driver = Driver.new("Pak Haji Ali","01392839xx","Jl. Kedondong","Supra")
     end
     
     def to_s
       "-------------------"
       "Order date: #{@timestamp.to_s}\r\n"+
-      "Orderer: #{@orderer.name}\r\n"+
-      "Price: #{@price.to_s}\r\n"+
-      "Distance: #{(@route.length-1).to_s} units\r\n"+
-      "Total price: #{((@route.length-1)*@price).to_s}\r\n"+
-      "Driver:\r\n  Name: #{@driver.name}\r\n  Phone: #{@driver.phone}\r\n  Motorcycle: #{@driver.bike}"
+      "Orderer: #{@orderer.object.name}\r\n  Location: #{orderer.x}, #{orderer.y}\r\n"+
+      "Price: #{@unit_price.to_s}\r\n"+
+      "Distance: #{(@route.coordinates.length-1).to_s} units\r\n"+
+      "Total price: #{@price.to_s}\r\n"+
+      "Driver:\r\n  Name: #{@driver.object.name}\r\n  Location: #{@driver.x},#{@driver.y}\r\n  Phone: #{@driver.object.phone}\r\n  Motorcycle: #{@driver.object.bike}"
     end
   end
   
@@ -278,7 +273,7 @@ module GoCli
       end
       @orders = []
       @user_in_map = @map.map_objects.select {|obj| obj.object.instance_of? Person}[0]
-      puts @user_in_map
+      #puts @user_in_map
     end
     
     def save_map
@@ -287,11 +282,11 @@ module GoCli
     
     def place_order(destination_x, destination_y)
       order =  Order.new
-      order.orderer = @user_in_map.object
-      # order.route = map. calculate route
-      # order.price = price according to route distance 
-      puts @user_in_map.x, @user_in_map.y
-      order.driver = @map.find_nearest(@user_in_map.x, @user_in_map.y, "Driver")
+      order.orderer = @user_in_map
+      order.route = @map.route(@user_in_map.x, @user_in_map.y, destination_x, destination_y)
+      order.unit_price = @@unit_cost
+      order.price = (order.route.coordinates.length-1)*@@unit_cost
+      order.driver = @map.find_nearest(@user_in_map.x, @user_in_map.y, "Driver")      
       order.freeze
       response = lambda do |answer|
         if answer.downcase == "yes"
