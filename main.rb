@@ -27,6 +27,8 @@ class AppInterface
         order_response = app.place_order(*user_response)
         puts "---Order confirmation---"
         puts order_response["order"]
+        puts "---------Route----------"
+        puts order_response["order"].route.direction
         puts "------------------------"
         print "Confirm? > [Y/n]"
         confirm = STDIN.gets.chomp.downcase
