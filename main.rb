@@ -9,7 +9,7 @@ class AppInterface
       app = App.new(20)
     elsif ARGV.length == 1
       puts "Initialize by file..."
-      app = App.new(20)
+      app = App.new(nil,nil,nil,ARGV[0])
     elsif ARGV.length == 3
       app = App.new(ARGV[0].to_i, ARGV[1].to_i, ARGV[2].to_i)
     else 
