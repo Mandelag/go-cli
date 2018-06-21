@@ -171,6 +171,29 @@ module GoCli
       @dest_y = dest_y
     end
     
+    def direction
+      direction = Array("Start at "+@start_x.to_s+", "+@start_y.to_s)
+      puts direction
+      if @coordinates.length >= 2
+        (1..@coordinates.length-1).each do |n|
+          prev_coords = @coordinates[n-1]
+          direction = [@coordinates[n][0] - prev_coords[0], @coordinates[n][1] - prev_coords[1]]
+          direction_string = ""
+          if direction == [0,1]
+            direction_string = "north"
+          elsif direction == [1,0]
+            direction_string = "east"
+          elsif direction == [0,-1]
+            direction_string = "south"
+          elsif direction == [-1,0]
+            direction_string = "west"
+          end
+          puts "Go "+direction_string.to_s+" to "+@coordinates[n][0].to_s + ", " + @coordinates[n][1].to_s + "."
+        end
+      end
+      puts "Finish at #{@dest_x}, #{@dest_y}"
+    end
+    
     def self.lurus_lurus_algorithm(start_x, start_y, dest_x, dest_y)
       route = Route.new(start_x, start_y, dest_x, dest_y)
       #print [start_x, start_y, dest_x, dest_y]
