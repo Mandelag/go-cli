@@ -254,7 +254,8 @@ module GoCli
       if map_file.nil?
         @map = Map.get_pre_populated(side, user_x, user_y)
       else
-        @map = Map.load(map_file)
+        map_file_string = File.read(map_file)
+        @map = Map.load(map_file_string)
       end
       @orders = []
     end
