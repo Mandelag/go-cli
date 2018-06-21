@@ -87,8 +87,26 @@ module GoCli
       }.to_json(*a)
     end
     
+    def ==(o)
+      o.class == self.class && o.state == state
+    end
+    
+    def state
+      [@width, @height, @map_objects]
+    end
+    
     def self.json_create(o)
-      
+      #o = JSON.parse(o)
+      #puts o.class
+      #puts "WOW"
+      deserialized = new(o["data"]["height"], o["data"]["width"])
+      #puts o["data"]["map_objects"]
+      #o["data"]["map_objects"].each do |map_object| 
+        #puts "EHE"
+        #puts map_object
+        #deserialized.place(map_object.object, map_object.x, map_object.y)
+      deserialized
+      #end
     end
     
     def self.get_pre_populated(side, user_x, user_y)
@@ -131,7 +149,7 @@ module GoCli
     end
     
     def self.json_create(o)
-      
+      new(o["data"]["object"], o["data"]["symbol"], o["data"]["x"], o["data"]["y"])
     end
   end
   
@@ -149,7 +167,6 @@ module GoCli
       route = Route.new
       lurus_horizontal = [start_x..dest_x]
       lurus_vertical = start_y..dest_y
-      
     end
   end
   
@@ -172,7 +189,7 @@ module GoCli
     end
     
     def self.json_create(o)
-      
+      new(o["data"]["name"], o["data"]["phone"], o["data"]["address"])
     end
   end
   
@@ -195,9 +212,8 @@ module GoCli
     end
     
     def self.json_create(o)
-      
+      new(o["data"]["name"], o["data"]["phone"], o["data"]["address"], o["data"]["bike"])
     end
-    
   end
   
   class Order
