@@ -247,20 +247,15 @@ module GoCli
   end
   
   class App
-    @@map = nil
     @@unit_cost = 300
     @user_in_map = nil
     
-    def initialize(side, user_x=nil, user_y=nil)
-      if @@map.nil?
-         @@map = Map.get_pre_populated_map(side, user_x, user_y)
+    def initialize(side, user_x=nil, user_y=nil, map_file=nil)
+      if map_file.nil?
+        @map = Map.get_pre_populated(side, user_x, user_y)
+      else
+        @map = Map.load(map_file)
       end
-      @orders = []
-    end
-    
-    def initialize(filename)
-      json_string = File.read(filename)
-      @@map = Map.load(json_string)
       @orders = []
     end
     
@@ -270,7 +265,7 @@ module GoCli
       # order.route = map. calculate route
       # order.price = price according to route distance 
       puts @user_in_map.x, @user_in_map.y
-      order.driver = @@map.find_nearest(@user_in_map.x, @user_in_map.y, "Driver")
+      order.driver = @map.find_nearest(@user_in_map.x, @user_in_map.y, "Driver")
       order.freeze
       response = lambda do |answer|
         if answer.downcase == "yes"
@@ -290,7 +285,7 @@ module GoCli
       puts ""
       puts "------Maps------"
       puts ""
-      @@map.display
+      @map.display
       puts ""
       puts "----------------"
     end
