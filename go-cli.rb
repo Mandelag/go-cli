@@ -77,12 +77,13 @@ module GoCli
       objects
     end
     
-    def save() 
-      this.to_json
+    def save()
+      to_json
     end
     
     def self.load(json_string)
-      
+      map = JSON.parse(json_string)
+      self.json_create(map)
     end
     
     def to_json(*a)
@@ -104,19 +105,16 @@ module GoCli
     end
     
     def self.json_create(o)
-      #o = JSON.parse(o)
-      #puts o.class
-      #puts "WOW"
-      deserialized = new(o["data"]["height"], o["data"]["width"])
-      #Module.const_get(class_string))
-      #puts o["data"]["map_objects"]
-      #o["data"]["map_objects"].each do |map_object| 
-        #puts "EHE"
-        #puts map_object
-        #deserialized.place(map_object.object, map_object.x, map_object.y)
-      deserialized
-      puts deserialized
-      #end
+      map = Map.new(o["data"]["height"], o["data"]["width"])
+      o["data"]["map_objects"].each do |map_object|
+        obj =  Module.const_get(map_object["data"]["object"]["json_class"]).json_create(map_object["data"]["object"])
+        puts obj
+        symbol = map_object["data"]["symbol"]
+        x = map_object["data"]["x"]
+        y = map_object["data"]["y"]
+        map.place(obj, symbol, x, y)
+      end
+      map
     end
     
     def self.get_pre_populated(side, user_x, user_y)
@@ -159,7 +157,9 @@ module GoCli
     end
     
     def self.json_create(o)
-      new(o["data"]["object"], o["data"]["symbol"], o["data"]["x"], o["data"]["y"])
+      puts o
+      #puts Module.const_get(o["json_class"]).json_create(o["data"]["object"])
+      new(o["data"]["symbol"], o["data"]["x"], o["data"]["y"])
     end
   end
   
